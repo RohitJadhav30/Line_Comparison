@@ -62,12 +62,12 @@ class Line implements Comparable<Line> {
             return false;
         Line line = (Line) obj;
         return (start.equals(line.start) && end.equals(line.end)) ||
-                (start.equals(line.end) && end.equals(line.start));
+               (start.equals(line.end) && end.equals(line.start));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end);
+        return Objects.hash(start, end) + Objects.hash(end, start);
     }
 
     @Override
