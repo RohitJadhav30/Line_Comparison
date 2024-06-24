@@ -1,23 +1,83 @@
-import java.util.Scanner;
+import java.util.Objects;
 
-public class LineComparison{
+class Point {
+    private double x;
+    private double y;
 
-    public static double calculateLength(double x1, double x2, double y1, double y2){
-        return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the x1 and x2 coordinates: ");
-        double x1 = sc.nextDouble();
-        double x2 = sc.nextDouble();
 
-        System.out.println("Enter the y1 and y2 coordinates: ");
-        double y1 = sc.nextDouble();
-        double y2 = sc.nextDouble();
-        sc.close();
+    public double getX() {
+        return x;
+    }
 
-        double length = calculateLength(x1, x2, y1, y2);
-        System.out.println("The length of the line is: " + String.format("%.2f", length));
+    public double getY() {
+        return y;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass()) 
+            return false;
+        Point point = (Point) obj;
+        return Double.compare(point.x, x) == 0 && Double.compare(point.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
+
+class Line {
+    private Point start;
+    private Point end;
+
+    public Line(Point start, Point end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public Point getEnd() {
+        return end;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) 
+            return true;
+        if (obj == null || getClass() != obj.getClass()) 
+            return false;
+        Line line = (Line) obj;
+        return (start.equals(line.start) && end.equals(line.end)) ||
+               (start.equals(line.end) && end.equals(line.start));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end) + Objects.hash(end, start);
+    }
+}
+
+public class LineComparison {
+    public static void main(String[] args) {
+        Point p1 = new Point(0, 0);
+        Point p2 = new Point(1, 1);
+        Point p3 = new Point(0, 0);
+        Point p4 = new Point(1, 1);
+
+        Line line1 = new Line(p1, p2);
+        Line line2 = new Line(p3, p4);
+
+        System.out.println("Line 1 equals Line 2: " + line1.equals(line2));
+    }
+}
+
